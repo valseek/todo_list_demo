@@ -1,0 +1,14 @@
+html{
+    height:100%;
+    width: 100%;
+}
+
+.edit-confirm{
+    cursor: pointer;
+    vertical-align: inherit;
+}
+
+.edit-delete{
+    cursor: pointer;
+    vertical-align: inherit;
+}
