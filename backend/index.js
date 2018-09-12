@@ -13,19 +13,15 @@ io.on('connection', function(socket){
         let message = JSON.parse(msg);
         console.log("add",message)
         console.log("modify_msg_" + message.man)
-        io.emit("modify_msg_" + message.man , JSON.stringify({
-            type : "add" ,
-            data : message
-        }));
+        io.emit("modify_msg_" + message.man , JSON.stringify({ type : "add" , data : message }));
+        io.emit("modify_msg" , JSON.stringify({ type : "add" , data : message }));
     });
     socket.on("del_task" , function(msg){
         let message = JSON.parse(msg);
         console.log("del",message)
         console.log("modify_msg_" + message.man)
-        io.emit("modify_msg_" + message.man , JSON.stringify({
-            type:"delete" ,
-            id : message.id
-        }))
+        io.emit("modify_msg_" + message.man , JSON.stringify({ type:"delete" , id : message.id }));
+        io.emit("modify_msg" , JSON.stringify({ type:"delete" , id : message.id }));
     })
 });
 

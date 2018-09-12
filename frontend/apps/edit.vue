@@ -13,7 +13,7 @@
                 <td>{{value.name}}</td>
                 <td>{{value.man}}</td>
                 <td>
-                    <button class="edit-delete" @click="deleteTask(value.id)">
+                    <button class="edit-delete" @click="deleteTask(value.id,value.man)">
                         <svgicon icon="delete" height="28" width="28"></svgicon>
                     </button>
                 </td>
@@ -58,6 +58,22 @@
             this.socketio = socketio("http://127.0.0.1:3001", {
                 path: '/tasks'
             });
+            let svue = this;
+            this.socketio.on("modify_msg",function(message){
+                console.log(message)
+                let msg = JSON.parse(message);
+                if(msg.type === "delete") {
+                    let id = msg.id;
+                    svue.todoList = svue.todoList.filter((item)=>{
+                        if(item.id === id){
+                            return false;
+                        }
+                        return true;
+                    })
+                }else if(msg.type === "add") {
+                    svue.todoList.push(msg.data)
+                }
+            })
         },
         methods: {
             confirmTask: function (event) {
@@ -75,16 +91,9 @@
                     man: taskMan
                 };
                 this.socketio.emit("add_task",JSON.stringify(taskItem));
-                this.todoList.push(taskItem);
             },
-            deleteTask: function (id, event) {
-                this.socketio.emit("del_task",JSON.stringify({id:id}))
-                this.todoList = this.todoList.filter((item) => {
-                    if (item.id === id) {
-                        return false;
-                    }
-                    return true;
-                })
+            deleteTask: function (id , man , event) {
+                this.socketio.emit("del_task",JSON.stringify({id:id , man : man}))
             }
         }
     }

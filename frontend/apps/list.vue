@@ -18,7 +18,7 @@
                 <td>{{value.name}}</td>
                 <td>{{value.man}}</td>
                 <td>
-                    <button class="edit-delete" @click="deleteTask(value.id)">
+                    <button class="edit-delete" @click="deleteTask(value.id,value.man)">
                         <svgicon icon="delete" height="28" width="28"></svgicon>
                     </button>
                 </td>
@@ -72,8 +72,8 @@
                     }
                 })
             } ,
-            deleteTask : function(id , event){
-                this.socketio.emit("del_task",JSON.stringify({id:id}))
+            deleteTask : function(id , man , event){
+                this.socketio.emit("del_task",JSON.stringify({id:id,man:man}))
                 this.todoList = this.todoList.filter((item)=>{
                     if(item.id === id){
                         return false;
